@@ -267,6 +267,16 @@ aiNode* ColladaLoader::BuildHierarchy(const ColladaParser& pParser, const Collad
     // find a name for the new node. It's more complicated than you might think
     node->mName.Set(FindNameForNode(pNode));
 
+    aiMetadata* dest = aiMetadata::Alloc( 2 );
+    dest->mValues[0].mType = AI_AISTRING;
+    dest->mKeys[0] = "collada_name";
+    dest->mValues[0].mData = new aiString(pNode->mName);
+
+    dest->mValues[1].mType = AI_AISTRING;
+    dest->mKeys[1] = "collada_sid";
+    dest->mValues[1].mData = new aiString(pNode->mSID);
+    node->mMetaData = dest;
+
     // calculate the transformation matrix for it
     node->mTransformation = pParser.CalculateResultTransform(pNode->mTransforms);
 
